@@ -8,6 +8,7 @@ interface PromptProps {
 
 }
 
+
 export function Prompt({ displayText, promptRef, cursor }: PromptProps) {
     const cursorRef = useRef<HTMLSpanElement>(null)
     const postCursorRef = useRef<HTMLSpanElement>(null)
@@ -34,6 +35,7 @@ export function Prompt({ displayText, promptRef, cursor }: PromptProps) {
                             color: indx === cursor ? 'black' : '#999999',
                             position: 'relative', // Position the text
                             zIndex: 1, // Higher z-index for text
+                            fontVariantLigatures: 'no-common-ligatures'
                         }}>{el}</span>
                 })}
                 <ProgressBar
