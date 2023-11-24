@@ -1,13 +1,13 @@
 import { useState, useEffect, useRef } from 'react'
-
+import { Prompt } from './components/Prompt'
 
 function App() {
+  const promptRef = useRef<HTMLDivElement>(null)
+
   let displayText: string = 'let the spice flow.'
-  let displayTextChars: string[] = Array.from(displayText)
+
   const [inputText, setInputText] = useState<string[]>([])
   const [cursor, setCursor] = useState<number>(0)
-
-  const promptRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     if (promptRef.current) {
@@ -16,25 +16,30 @@ function App() {
         let newCursor: number = cursor;
 
         console.log(e.key)
-        console.log(cursor)
+        console.log(`cursor: ${cursor}`)
+
         if (e.key === 'Backspace') {
           newInputText.pop()
           setInputText(newInputText)
+          if (cursor > 0) {
+            newCursor = newCursor - 1;
+          }
 
-          cursor > 0 ? newCursor -= 1 : newCursor;
-          setCursor(newCursor)
         } else {
 
-          newInputText.push(e.key)
-          setInputText(newInputText)
+          if (e.key === displayText[cursor]) {
 
-          newCursor = newCursor + 1;
-          setCursor(newCursor)
+            newInputText.push(e.key)
+            setInputText(newInputText)
+
+            newCursor = newCursor + 1;
+          }
+
         }
+        setCursor(newCursor)
+
         console.log(inputText)
       }
-
-      const promptElement = promptRef.current;
 
       window.addEventListener('keydown', handleTextInput)
 
@@ -43,21 +48,16 @@ function App() {
       }
 
     }
-  }, [inputText, cursor])
+  }, [cursor, inputText])
+
 
   return (
-    <div
-      className='prompt' ref={promptRef} style={{
-        fontSize: '24px', display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        height: '100vh',
-        whiteSpace: 'pre-wrap'
-      }}>
-      {displayTextChars.map((el, indx) => {
-        return <span key={indx}>{el}</span>
-      })}
-    </div>
+    <>
+      <Prompt
+        displayText={displayText}
+        promptRef={promptRef}
+        cursor={cursor} />
+    </>
   )
 }
 
