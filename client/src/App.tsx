@@ -1,24 +1,75 @@
 import { useState, useEffect, useRef } from 'react'
 import { Prompt } from './components/Prompt'
+import { Stats } from './components/Stats'
 
 function App() {
   const promptRef = useRef<HTMLDivElement>(null)
 
   let displayText: string = 'let the spice flow. flow.'
 
+  const [isTypingActive, setIsTypingActive] = useState<boolean>(true)
   const [inputText, setInputText] = useState<string[]>([])
   const [cursor, setCursor] = useState<number>(0)
   const [errors, setErrors] = useState<number[]>([])
 
+  const [wordCount, setWordCount] = useState<number>(0)
+  const [timer, setTimer] = useState<number>(0)
+  const [isTimerActive, setIsTimerActive] = useState<boolean>(false)
+  const [wpm, setWPM] = useState<number>(0)
+
+
+  function startTimer() {
+    setIsTimerActive(true)
+  }
+
+  function stopTimer() {
+    setIsTimerActive(false)
+  }
+
+
+  function calculateWPM() {
+    if (timer > 0) {
+      let currentInputText: string = inputText.join('')
+      let currentWordCount: number = currentInputText.split(' ').length;
+      setWordCount(currentWordCount)
+
+      let currentWPM = (wordCount / (timer / 60))
+      console.log(currentWPM)
+      setWPM(currentWPM)
+    }
+  }
+
+  useEffect(() => {
+    let interval: number;
+
+    if (isTimerActive) {
+      interval = setInterval(() => {
+        setTimer(prevTimer => prevTimer + .1);
+      }, 100)
+    }
+
+    return () => {
+      clearInterval(interval)
+    }
+  }, [isTimerActive])
+
+
   useEffect(() => {
     if (promptRef.current) {
       const handleTextInput = (e: KeyboardEvent) => {
+        setIsTimerActive(true)
+
+        console.table({ cursor, wordCount, timer, wpm });
+
+        // if (cursor > displayText.length) {
+        //   setIsTimerActive(false)
+        //   return () => {
+        //     window.removeEventListener('keydown', handleTextInput)
+        //   }
+        // }
+
         let newInputText: string[] = inputText.slice()
         let newCursor: number = cursor;
-
-        console.log(`cursor: ${cursor}`)
-        console.log('errors: ', errors)
-
 
         if (e.key === 'Backspace') {
           newInputText.pop()
@@ -36,13 +87,14 @@ function App() {
 
         } else {
 
-          // if (e.key === displayText[cursor]) {
+          if (e.key === ' ') {
+            calculateWPM()
+          }
 
           newInputText.push(e.key)
           setInputText(newInputText)
 
           newCursor = newCursor + 1;
-          // }
 
           if (e.key !== displayText[cursor]) {
             setErrors([...errors, cursor])
@@ -50,17 +102,26 @@ function App() {
 
         }
         setCursor(newCursor)
+
       }
 
-      window.addEventListener('keydown', handleTextInput)
+      if (isTypingActive) {
+        window.addEventListener('keydown', handleTextInput)
+      }
 
       return () => {
         window.removeEventListener('keydown', handleTextInput)
       }
 
     }
-  }, [cursor, inputText, errors])
+  }, [isTypingActive, cursor, inputText, errors])
 
+  useEffect(() => {
+    if (cursor > displayText.length) {
+      setIsTypingActive(false);
+      setIsTimerActive(false);
+    }
+  })
 
   return (
     <>
@@ -70,6 +131,7 @@ function App() {
         inputText={inputText}
         cursor={cursor}
         errors={errors} />
+      <Stats wordCount={wpm} />
     </>
   )
 }

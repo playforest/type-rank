@@ -32,7 +32,7 @@ export function Prompt({ displayText, promptRef, inputText, cursor, errors }: Pr
         <div className='prompt' ref={promptRef} style={{
             fontSize: '30px', display: 'flex',
             justifyContent: 'center', alignItems: 'center',
-            height: '100vh', whiteSpace: 'pre-wrap'
+            height: '65vh', whiteSpace: 'pre-wrap'
         }}>
             <div style={{ position: 'relative' }}> {/* Inner container for the text and the line */}
                 {displayTextChars.map((el, indx) => {
@@ -48,9 +48,6 @@ export function Prompt({ displayText, promptRef, inputText, cursor, errors }: Pr
                             style.color = 'red'
                         }
                     })
-
-
-
 
                     return <span ref={
                         indx === cursor ? cursorRef :
