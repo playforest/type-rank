@@ -4,10 +4,11 @@ import { Prompt } from './components/Prompt'
 function App() {
   const promptRef = useRef<HTMLDivElement>(null)
 
-  let displayText: string = 'let the spice flow.'
+  let displayText: string = 'let the spice flow. flow.'
 
   const [inputText, setInputText] = useState<string[]>([])
   const [cursor, setCursor] = useState<number>(0)
+  const [errors, setErrors] = useState<number[]>([])
 
   useEffect(() => {
     if (promptRef.current) {
@@ -15,30 +16,34 @@ function App() {
         let newInputText: string[] = inputText.slice()
         let newCursor: number = cursor;
 
-        console.log(e.key)
         console.log(`cursor: ${cursor}`)
+        console.log('errors: ', errors)
+
 
         if (e.key === 'Backspace') {
           newInputText.pop()
           setInputText(newInputText)
+
           if (cursor > 0) {
             newCursor = newCursor - 1;
           }
 
         } else {
 
-          if (e.key === displayText[cursor]) {
+          // if (e.key === displayText[cursor]) {
 
-            newInputText.push(e.key)
-            setInputText(newInputText)
+          newInputText.push(e.key)
+          setInputText(newInputText)
 
-            newCursor = newCursor + 1;
+          newCursor = newCursor + 1;
+          // }
+
+          if (e.key !== displayText[cursor]) {
+            setErrors([...errors, cursor])
           }
 
         }
         setCursor(newCursor)
-
-        console.log(inputText)
       }
 
       window.addEventListener('keydown', handleTextInput)
@@ -48,7 +53,7 @@ function App() {
       }
 
     }
-  }, [cursor, inputText])
+  }, [cursor, inputText, errors])
 
 
   return (
@@ -56,7 +61,9 @@ function App() {
       <Prompt
         displayText={displayText}
         promptRef={promptRef}
-        cursor={cursor} />
+        inputText={inputText}
+        cursor={cursor}
+        errors={errors} />
     </>
   )
 }
