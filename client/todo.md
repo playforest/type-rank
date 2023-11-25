@@ -3,7 +3,7 @@
 [*] basic keydown event and input, cursor state mgt
 [*] implement basic color-based progress tracker
 [*] red letter alert on incorrect keypress
-[ ] remove errors with backspacing
+[*] remove errors with backspacing
 [ ] wpm calculation
 
 * good to have:

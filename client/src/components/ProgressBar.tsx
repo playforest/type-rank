@@ -29,8 +29,8 @@ export function ProgressBar({ cursor, cursorRef }: ProgressBarProps) {
             left: lineTrackerPos,
             width: lineTrackerWidth,
             right: 0,
-            height: '3px', // Thickness of the line
-            backgroundColor: 'black', // Color of the line
+            height: '3px',
+            backgroundColor: 'black',
             borderRadius: '2px',
             transition: 'left 0.2s ease, width 0.3s ease'
         }}></div>

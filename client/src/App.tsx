@@ -24,6 +24,12 @@ function App() {
           newInputText.pop()
           setInputText(newInputText)
 
+          if (cursor === errors[errors.length - 1]) {
+            let newErrors = errors.slice()
+            newErrors.pop()
+            setErrors(newErrors)
+          }
+
           if (cursor > 0) {
             newCursor = newCursor - 1;
           }
