@@ -45,7 +45,9 @@ export function Prompt({ displayText, promptRef, inputText, cursor, errors }: Pr
 
                     errors.map((el) => {
                         if (indx === el) {
-                            style.color = 'red'
+                            displayText[el] !== ' ' ?
+                                style.color = 'red' :
+                                Object.assign(style, { backgroundColor: 'red', opacity: 0.2 })
                         }
                     })
 
