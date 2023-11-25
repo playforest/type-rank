@@ -16,6 +16,7 @@ function App() {
   const [timer, setTimer] = useState<number>(0)
   const [isTimerActive, setIsTimerActive] = useState<boolean>(false)
   const [wpm, setWPM] = useState<number>(0)
+  const [accuracy, setAccuracy] = useState<number>(0)
 
 
   function startTimer() {
@@ -33,10 +34,16 @@ function App() {
       let currentWordCount: number = currentInputText.split(' ').length;
       setWordCount(currentWordCount)
 
-      let currentWPM = (wordCount / (timer / 60))
+      let currentWPM: number = (wordCount / (timer / 60))
       console.log(currentWPM)
       setWPM(currentWPM)
     }
+  }
+
+  function calculateAccuracy() {
+    let totalCharacters: number = displayText.length;
+    let currentAccuracy: number = ((totalCharacters - errors.length) / totalCharacters) * 100;
+    setAccuracy(currentAccuracy)
   }
 
   useEffect(() => {
@@ -58,15 +65,8 @@ function App() {
     if (promptRef.current) {
       const handleTextInput = (e: KeyboardEvent) => {
         setIsTimerActive(true)
-
+        calculateAccuracy()
         console.table({ cursor, wordCount, timer, wpm });
-
-        // if (cursor > displayText.length) {
-        //   setIsTimerActive(false)
-        //   return () => {
-        //     window.removeEventListener('keydown', handleTextInput)
-        //   }
-        // }
 
         let newInputText: string[] = inputText.slice()
         let newCursor: number = cursor;
@@ -89,6 +89,7 @@ function App() {
 
           if (e.key === ' ') {
             calculateWPM()
+            calculateAccuracy()
           }
 
           newInputText.push(e.key)
@@ -131,7 +132,9 @@ function App() {
         inputText={inputText}
         cursor={cursor}
         errors={errors} />
-      <Stats wordCount={wpm} />
+      <Stats
+        wordCount={wpm}
+        accuracy={accuracy} />
     </>
   )
 }

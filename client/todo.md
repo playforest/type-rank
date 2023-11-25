@@ -4,7 +4,10 @@
 [*] implement basic color-based progress tracker
 [*] red letter alert on incorrect keypress
 [*] remove errors with backspacing
-[ ] wpm calculation
+[*] wpm calculation
+[*] accuracy
+[ ] restart
+[ ] highlight incorrect spaces
 
 * good to have:
 [*] smooth sliding of underline cursor

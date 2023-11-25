@@ -1,8 +1,9 @@
 interface StatsProps {
     wordCount: number;
+    accuracy: number;
 }
 
-export function Stats({ wordCount }: StatsProps) {
+export function Stats({ wordCount, accuracy }: StatsProps) {
     return (
         <div style={{
             fontSize: 18,
@@ -11,7 +12,7 @@ export function Stats({ wordCount }: StatsProps) {
             textAlign: 'left'
         }}>
             <span>WPM: {Math.round(wordCount)}</span> <br />
-            <span>Accuracy: </span>
+            <span>Accuracy: {Math.round(accuracy)}%</span>
         </div>
     );
 }
