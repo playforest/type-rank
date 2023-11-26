@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { Prompt } from './components/Prompt'
 import { Stats } from './components/Stats'
+import { Menu } from './components/Menu'
 
 function App() {
   const promptRef = useRef<HTMLDivElement>(null)
@@ -18,17 +19,7 @@ function App() {
   const [wpm, setWPM] = useState<number>(0)
   const [accuracy, setAccuracy] = useState<number>(0)
 
-
-  function startTimer() {
-    setIsTimerActive(true)
-  }
-
-  function stopTimer() {
-    setIsTimerActive(false)
-  }
-
-
-  function calculateWPM() {
+  function calculateWPM(): void {
     if (timer > 0) {
       let currentInputText: string = inputText.join('')
       let currentWordCount: number = currentInputText.split(' ').length;
@@ -40,10 +31,27 @@ function App() {
     }
   }
 
-  function calculateAccuracy() {
+  function calculateAccuracy(): void {
     let totalCharacters: number = displayText.length;
     let currentAccuracy: number = ((totalCharacters - errors.length) / totalCharacters) * 100;
     setAccuracy(currentAccuracy)
+  }
+
+  function handleReset(e: KeyboardEvent): void {
+    if (e.ctrlKey && e.key === ' ') {
+      resetState()
+    }
+  }
+
+  function resetState(): void {
+    setCursor(0)
+    setInputText([])
+    setErrors([])
+    setTimer(0)
+    setWPM(0)
+    setAccuracy(0)
+
+    setIsTypingActive(true)
   }
 
   useEffect(() => {
@@ -66,8 +74,8 @@ function App() {
       const handleTextInput = (e: KeyboardEvent) => {
         setIsTimerActive(true)
         calculateAccuracy()
-        console.table({ cursor, wordCount, timer, wpm });
-
+        // console.table({ cursor, wordCount, timer, wpm, errors });
+        console.log(e.key)
         let newInputText: string[] = inputText.slice()
         let newCursor: number = cursor;
 
@@ -121,8 +129,17 @@ function App() {
     if (cursor > displayText.length) {
       setIsTypingActive(false);
       setIsTimerActive(false);
+
+      if (!isTypingActive) {
+        window.addEventListener('keydown', handleReset)
+      }
+
+      return () => {
+        window.removeEventListener('keydown', handleReset);
+      };
+
     }
-  })
+  }, [cursor, isTypingActive])
 
   return (
     <>
@@ -134,7 +151,10 @@ function App() {
         errors={errors} />
       <Stats
         wordCount={wpm}
-        accuracy={accuracy} />
+        accuracy={accuracy}
+        isTypingActive={isTypingActive}
+        resetFunction={resetState} />
+
     </>
   )
 }
