@@ -6,7 +6,8 @@ import { Menu } from './components/Menu'
 function App() {
   const promptRef = useRef<HTMLDivElement>(null)
 
-  let displayText: string = 'let the spice flow. flow.'
+
+  let displayText: string = 'A fierce dragon swooped over the kingdom of Eldoria. '
 
   const [isTypingActive, setIsTypingActive] = useState<boolean>(true)
   const [inputText, setInputText] = useState<string[]>([])
@@ -71,6 +72,8 @@ function App() {
 
   useEffect(() => {
     if (promptRef.current) {
+      const nonCharKeys = ['Shift', 'Control', 'Alt', 'CapsLock', 'Tab', 'Escape', 'Enter', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'];
+
       const handleTextInput = (e: KeyboardEvent) => {
         setIsTimerActive(true)
         calculateAccuracy()
@@ -93,7 +96,7 @@ function App() {
             newCursor = newCursor - 1;
           }
 
-        } else {
+        } else if (!nonCharKeys.includes(e.key)) {
 
           if (e.key === ' ') {
             calculateWPM()

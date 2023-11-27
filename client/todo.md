@@ -6,12 +6,13 @@
 [*] remove errors with backspacing
 [*] wpm calculation
 [*] accuracy
-[ ] restart
+[*] restart
 [ ] highlight incorrect spaces
 
 * good to have:
 [*] smooth sliding of underline cursor
-[ ] multiline passages
+[*] multiline passages
+[ ] move css to static files
 
 * bugs:
 [*] 'fl' are rendered in seperate spans but one's width subsumes the other
