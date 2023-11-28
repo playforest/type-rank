@@ -83,6 +83,8 @@ function App() {
         let newCursor: number = cursor;
 
         if (e.key === 'Backspace') {
+          console.log(`cursor: ${cursor}`)
+
           newInputText.pop()
           setInputText(newInputText)
 
@@ -90,14 +92,19 @@ function App() {
             let newErrors = errors.slice()
             newErrors.pop()
             setErrors(newErrors)
+            console.log(`errors: ${errors}`)
+
           }
 
           if (cursor > 0) {
             newCursor = newCursor - 1;
+            setCursor(newCursor)
+            console.log(`cursor: ${cursor}`)
+
           }
 
         } else if (!nonCharKeys.includes(e.key)) {
-
+          console.log(`cursor: ${cursor}`)
           if (e.key === ' ') {
             calculateWPM()
             calculateAccuracy()
@@ -107,13 +114,13 @@ function App() {
           setInputText(newInputText)
 
           newCursor = newCursor + 1;
-
+          setCursor(newCursor)
           if (e.key !== displayText[cursor]) {
             setErrors([...errors, cursor])
           }
 
+
         }
-        setCursor(newCursor)
 
       }
 

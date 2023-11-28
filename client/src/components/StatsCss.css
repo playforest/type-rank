@@ -1,0 +1,15 @@
+#metricName {
+    color: rgb(167, 110, 221);
+}
+
+#yourResult {
+    color: rgb(127, 255, 127)
+}
+
+#opponentResult {
+    color: rgba(127, 255, 127, .8)
+}
+
+#players {
+    color: forestgreen;
+}
