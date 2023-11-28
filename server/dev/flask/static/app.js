@@ -12,6 +12,14 @@ document.addEventListener('DOMContentLoaded', function() {
         messages.appendChild(newMessage);
     });
 
+    var joinBtn = document.getElementById('joinRoom');
+    joinBtn.addEventListener('click', function() {
+        var username = document.getElementById('username').value;
+        var room = document.getElementById('room').value;
+
+        socket.emit('join', {username, room})
+    })
+
     var sendBtn = document.getElementById('sendBtn');
     sendBtn.addEventListener('click', function() {
 
