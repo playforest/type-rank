@@ -3,9 +3,10 @@ import { useRef, useEffect, useState } from 'react'
 interface ProgressBarProps {
     cursor: number;
     cursorRef: React.RefObject<HTMLSpanElement>;
+    isTypingActive: boolean;
 }
 
-export function ProgressBar({ cursor, cursorRef }: ProgressBarProps) {
+export function ProgressBar({ cursor, cursorRef, isTypingActive }: ProgressBarProps) {
     const progressRef = useRef<HTMLDivElement>(null)
     const [lineTrackerWidth, setLineTrackerWidth] = useState<number>(0)
     const [lineTrackerPosX, setLineTrackerPosX] = useState<number>(0)
@@ -26,6 +27,7 @@ export function ProgressBar({ cursor, cursorRef }: ProgressBarProps) {
 
     return (
         <div className='progress' ref={progressRef} style={{
+            display: isTypingActive ? 'flex' : 'none',
             position: 'absolute', // Position absolutely within the inner container
             bottom: 2, // Position at the bottom of the inner container
             left: lineTrackerPosX,
