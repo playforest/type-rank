@@ -1,3 +1,14 @@
+* server:
+[ ] serve page from flask
+[ ] implement socketio
+
+## databases:
+
+
+* client:
+## socket io:
+[ ]
+
 * prompt:
 [*] render passage
 [*] basic keydown event and input, cursor state mgt
@@ -8,6 +19,10 @@
 [*] accuracy
 [*] restart
 [ ] highlight incorrect spaces
+
+* stats:
+[*] change font of kpis
+[*] add placeholder for opponent stats 
 
 * good to have:
 [*] smooth sliding of underline cursor

@@ -17,7 +17,7 @@ export function Stats({ wordCount, accuracy, isTypingActive, resetFunction }: St
     return (
         <div style={{
             fontFamily: 'Menlo, Monaco, Courier New, monospace',
-            fontSize: 14,
+            fontSize: 16,
             width: '300px',
             margin: '20px auto 0',
             textAlign: 'left',

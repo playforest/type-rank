@@ -6,7 +6,8 @@ function KeyRepresentation({ keyName }: KeyRepresentationProps) {
     return (
         <div style={{
             display: 'inline-block',
-            backgroundColor: 'lightgrey', // Grey background
+            backgroundColor: 'rgba(153,153,153, 0.5)', // Grey background
+            opacity: '100%',
             color: 'white', // White text
             padding: '4px 7px', // Adjust padding as needed
             margin: '0 5px', // Space between keys
@@ -40,7 +41,7 @@ export function Menu({ active, resetFunction }: MenuProps) {
             <div>
 
                 <KeyRepresentation keyName="ctrl" />
-                <span style={{ fontSize: '12px' }}>+</span>
+                <span style={{ fontSize: '12px', color: 'lightgrey' }}>+</span>
                 <KeyRepresentation keyName="space" />
             </div>
         </div>

@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { Prompt } from './components/Prompt'
 import { Stats } from './components/Stats'
-import { Menu } from './components/Menu'
 
 function App() {
   const promptRef = useRef<HTMLDivElement>(null)
@@ -54,6 +53,8 @@ function App() {
 
     setIsTypingActive(true)
   }
+
+
 
   useEffect(() => {
     let interval: number;
@@ -156,7 +157,6 @@ function App() {
       <Prompt
         displayText={displayText}
         promptRef={promptRef}
-        inputText={inputText}
         cursor={cursor}
         errors={errors} />
       <Stats

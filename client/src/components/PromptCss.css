@@ -1,0 +1,9 @@
+ @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+
+ .prompt {
+     font-family: 'Share Tech Mono';
+     /* font-size: 10px;
+    color: black;
+    background-color: white;
+    line-height: 0; */
+ }
