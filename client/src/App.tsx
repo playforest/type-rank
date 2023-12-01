@@ -1,6 +1,9 @@
 import { useState, useEffect, useRef } from 'react'
+import { io } from 'socket.io-client';
+
 import { Prompt } from './components/Prompt'
 import { Stats } from './components/Stats'
+
 
 function App() {
   const promptRef = useRef<HTMLDivElement>(null)
@@ -18,6 +21,7 @@ function App() {
   const [isTimerActive, setIsTimerActive] = useState<boolean>(false)
   const [wpm, setWPM] = useState<number>(0)
   const [accuracy, setAccuracy] = useState<number>(0)
+
 
   function calculateWPM(): void {
     if (timer > 0) {
@@ -54,7 +58,20 @@ function App() {
     setIsTypingActive(true)
   }
 
+  useEffect(() => {
+    const socket = io('http://127.0.0.1:5000')
+    socket.on('connect', () => {
+      socket.send('user connected!')
+    });
 
+    socket.on('room_assigned', (data) => {
+      console.log(data.room_id)
+    })
+
+    return () => {
+      socket.disconnect();
+    }
+  }, [])
 
   useEffect(() => {
     let interval: number;

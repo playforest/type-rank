@@ -1,16 +1,22 @@
-from flask_socketio import SocketIO, join_room, leave_room, send
+from flask_socketio import SocketIO, join_room, leave_room, send, emit
 from .utils import generate_room_id
 from config import Config
 
 socketio = SocketIO(cors_allowed_origins=Config.SOCKETIO_CORS_ALLOWED_ORIGINS)
 
 @socketio.on('connect')
-def on_join():
+def on_connect():
     room_id = generate_room_id()
-    print(f'user connected! room: {room_id}')
     join_room(room_id)
-    send(f'user has entered the room.', to=room_id)
+    emit('room_assigned', {'room_id': room_id})
+    print(f'user connected! room: {room_id}')
 
+@socketio.on('join')
+def on_join(data):
+    room_id = data['room_id']
+    join_room(room_id)
+    send(f'User has joined the room{room_id}', to=room_id)
+    print(f'User has joined room: {room_id}')
 
 @socketio.on('keystroke')
 def on_keystroke(data):
