@@ -1,0 +1,60 @@
+.room-control {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: black;
+    color: #c7c7c7;
+    padding: 10px;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    font-family: Menlo, Monaco, 'Courier New', monospace;
+    font-size: 10px;
+}
+
+.current-room {
+    padding-bottom: 5px;
+}
+
+.room-control .input-group {
+    display: flex;
+    /* Aligns items inline */
+    gap: 10px;
+    /* Adds space between input and button */
+    align-items: center;
+    /* Vertically aligns items in the flex container */
+}
+
+.room-control input {
+    background-color: #1A1A1A;
+    color: #c7c7c7;
+    border: 1px solid #c7c7c7;
+    padding: 3px 5px;
+    font-size: 10px;
+    font-family: Menlo, Monaco, 'Courier New', monospace;
+    height: 20px;
+    line-height: 1;
+    width: 100px;
+    vertical-align: middle;
+    /* Align text box vertically */
+    box-sizing: border-box;
+    /* Include padding and border in the height calculation */
+}
+
+.room-control button {
+    background-color: #1A1A1A;
+    color: #7FFF00;
+    border: 1px solid #7FFF00;
+    padding: 3px 5px;
+    font-size: 10px;
+    font-family: Menlo, Monaco, 'Courier New', monospace;
+    cursor: pointer;
+    height: 20px;
+    line-height: 1;
+    /* Normal line height */
+    vertical-align: middle;
+    /* Align button vertically */
+    box-sizing: border-box;
+    /* Include padding and border in the height calculation */
+}
