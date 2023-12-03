@@ -7,14 +7,14 @@ import { RoomControl } from './components/RoomControl';
 
 export interface ServerToClientEvents {
   user_room_assigned: (data: { username: string, room_id: string }) => void;
-  keystroke: (data: { wpm: number, accuracy: number }) => void;
+  keystroke: (data: { username: string, wpm: number, accuracy: number }) => void;
 
 }
 
 export interface ClientToServerEvents {
   join: (data: { username: string, room_id: string }) => void;
   leave: (data: { room_id: string }) => void;
-  keystroke: (data: { room_id: string, wpm: number, accuracy: number }) => void;
+  keystroke: (data: { username: string, room_id: string, wpm: number, accuracy: number }) => void;
   custom_connect_event: (data: string) => void;
 }
 
@@ -34,33 +34,55 @@ function App() {
   const [timer, setTimer] = useState<number>(0)
   const [isTimerActive, setIsTimerActive] = useState<boolean>(false)
   const [wpm, setWPM] = useState<number>(0)
+  const [opponentWpm, setOpponentWPM] = useState<number>(0)
   const [accuracy, setAccuracy] = useState<number>(0)
+  const [OpponentAccuracy, setOpponentAccuracy] = useState<number>(0)
   const [room, setRoom] = useState<string>('')
   const [username, setUsername] = useState<string>('')
   const [isPromptFocus, setIsPromptFocus] = useState<boolean>(true)
 
-  function calculateWPM(): void {
+  const usernameRef = useRef(username)
+
+  useEffect(() => {
+    usernameRef.current = username;
+  }, [username]);
+
+  function calculateStats(): void {
+    calculateWPM()
+    calculateAccuracy()
+    emitKeystroke()
+  }
+
+  function calculateWPM(): number {
     if (timer > 0) {
       let currentInputText: string = inputText.join('')
       let currentWordCount: number = currentInputText.split(' ').length;
       setWordCount(currentWordCount)
 
       let currentWPM: number = (wordCount / (timer / 60))
-      console.log(currentWPM)
       setWPM(currentWPM)
-
-      socketRef.current?.emit('keystroke', {
-        room_id: room,
-        wpm,
-        accuracy
-      })
+      return currentWPM
     }
+    return 0;
   }
 
-  function calculateAccuracy(): void {
+  function calculateAccuracy(): number {
     let totalCharacters: number = displayText.length;
     let currentAccuracy: number = ((totalCharacters - errors.length) / totalCharacters) * 100;
     setAccuracy(currentAccuracy)
+    return currentAccuracy;
+  }
+
+  function emitKeystroke(): void {
+    const currentWPM = calculateWPM()
+    const currentAccuracy = calculateAccuracy()
+
+    socketRef.current?.emit('keystroke', {
+      'username': username,
+      'room_id': room,
+      'wpm': currentWPM,
+      'accuracy': currentAccuracy
+    })
   }
 
   function handleReset(e: KeyboardEvent): void {
@@ -108,16 +130,20 @@ function App() {
       });
 
       socketRef.current.on('user_room_assigned', (data) => {
+
         setUsername(data.username)
         setRoom(data.room_id)
-        console.log(`user: ${data.username} assigned room: ${data.room_id}`)
+        console.log(`user: ${data.username} assigned room: ${data.room_id}, username: ${username}`)
       })
 
       socketRef.current.on('keystroke', (data) => {
-        console.log(data);
-      });
+        if (data.username !== usernameRef.current) {
+          setOpponentWPM(data.wpm)
+          setOpponentAccuracy(data.accuracy)
+        } else if (data.username === username) {
+        }
+      })
     }
-
     return () => {
       if (socketRef.current) {
         socketRef.current.disconnect();
@@ -171,8 +197,7 @@ function App() {
         } else if (!nonCharKeys.includes(e.key)) {
 
           if (e.key === ' ') {
-            calculateWPM()
-            calculateAccuracy()
+            calculateStats()
           }
 
           newInputText.push(e.key)
@@ -230,8 +255,10 @@ function App() {
         cursor={cursor}
         errors={errors} />
       <Stats
-        wordCount={wpm}
+        wpm={wpm}
+        opponentWpm={opponentWpm}
         accuracy={accuracy}
+        opponentAccuracy={OpponentAccuracy}
         isTypingActive={isTypingActive}
         resetFunction={resetState} />
 

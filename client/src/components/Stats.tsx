@@ -2,15 +2,17 @@ import { Menu } from "./Menu";
 import './StatsCss.css'
 
 interface StatsProps {
-    wordCount: number;
+    wpm: number;
+    opponentWpm: number;
     accuracy: number;
+    opponentAccuracy: number;
     isTypingActive: boolean;
     resetFunction: () => void;
 }
 
-export function Stats({ wordCount, accuracy, isTypingActive, resetFunction }: StatsProps) {
-    const opponentWPM: number = 67;
-    const opponentAccuracy: number = 95;
+export function Stats({ wpm, opponentWpm, accuracy, opponentAccuracy, isTypingActive, resetFunction }: StatsProps) {
+    // const opponentWPM: number = 67;
+    // const opponentAccuracy: number = 95;
 
 
 
@@ -34,13 +36,13 @@ export function Stats({ wordCount, accuracy, isTypingActive, resetFunction }: St
                 <tbody>
                     <tr>
                         <td id="metricName">WPM</td>
-                        <td id="yourResult">{Math.round(wordCount)}</td>
-                        <td id="opponentResult">{opponentWPM}</td>
+                        <td id="yourResult">{Math.round(wpm)}</td>
+                        <td id="opponentResult">{Math.round(opponentWpm)}</td>
                     </tr>
                     <tr>
                         <td id="metricName">Accuracy</td>
                         <td id="yourResult">{Math.round(accuracy)}%</td>
-                        <td id="opponentResult">{opponentAccuracy}%</td>
+                        <td id="opponentResult">{Math.round(opponentAccuracy)}%</td>
                     </tr>                    <tr>
                         <td id="metricName">Time</td>
                         <td id="yourResult">15s</td>

@@ -12,13 +12,14 @@ interface RoomControlProps {
     setUsername: (username: string) => void;
 }
 
-export function RoomControl({ username, currentRoomId, socketRef, setRoom }: RoomControlProps) {
+export function RoomControl({ username, currentRoomId, socketRef, setRoom, setUsername }: RoomControlProps) {
     const [newRoomId, setNewRoomId] = useState<string>('')
 
     const handleJoinRoom = () => {
         socketRef.current?.emit('leave', { room_id: currentRoomId })
         socketRef.current?.emit('join', { username: username, room_id: newRoomId })
         setRoom(newRoomId)
+        setUsername(username)
         setNewRoomId('');
     }
 

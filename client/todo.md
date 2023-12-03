@@ -9,7 +9,8 @@
 ## socket stuff:
 [*] update 'current room' id upon joining said room
 [*] receive messages from multiplayer room and log to console
-[ ] update 'opponent' stats with data received in message packets 
+[*] auto gen guest username
+[*] update 'opponent' stats with data received in message packets 
 [ ] leave room 
 [ ] max participants
 
