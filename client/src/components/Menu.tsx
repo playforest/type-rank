@@ -37,7 +37,11 @@ export function Menu({ active, resetFunction }: MenuProps) {
             width: '100%',
             marginBottom: '10px'
         }}>
-            <button onClick={resetFunction} disabled={active}>Reset</button>
+            <button style={{
+                backgroundColor: 'black',
+                borderColor: 'border: 2px solid #ffbbbb;',
+                color: '#ffbbbb'
+            }} onClick={resetFunction} disabled={active}>Reset</button>
             <div>
 
                 <KeyRepresentation keyName="ctrl" />

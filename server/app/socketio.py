@@ -25,12 +25,12 @@ def handle_join(data):
 @socketio.on('keystroke')
 def handle_keystroke(data):
     print(f'keystroke: {data}')
-    send(data, broadcast=True)
+    emit('keystroke',data, to=data['room_id'])
 
 
 @socketio.on('leave')
 def handle_leave(data):
-    username = data['username']
+    # username = data['username']
     room_id = data['room_id']
     leave_room(room_id)
-    send(f'{username} has left the room', to=room_id)
+    send(f'username has left the room', to=room_id)

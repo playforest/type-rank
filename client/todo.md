@@ -6,8 +6,11 @@
 
 
 * client:
-## socket io:
-[ ]
+## socket stuff:
+[*] update 'current room' id upon joining said room
+[*] receive messages from multiplayer room and log to console
+[ ] update 'opponent' stats with data received in message packets 
+[ ] leave room 
 
 * prompt:
 [*] render passage

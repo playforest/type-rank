@@ -6,17 +6,18 @@ import './RoomControlCss.css'
 
 interface RoomControlProps {
     currentRoomId: string;
-    onJoinRoom: (joinRoomId: string) => void;
     socketRef: React.RefObject<Socket<ServerToClientEvents, ClientToServerEvents> | null>;
+    setRoom: (roomId: string) => void;
 }
 
-export function RoomControl({ currentRoomId, onJoinRoom, socketRef }: RoomControlProps) {
-    const [joinRoomId, setJoinRoomId] = useState<string>('')
+export function RoomControl({ currentRoomId, socketRef, setRoom }: RoomControlProps) {
+    const [newRoomId, setNewRoomId] = useState<string>('')
 
     const handleJoinRoom = () => {
-        socketRef.current?.emit('join', { room_id: joinRoomId })
-        onJoinRoom(joinRoomId);
-        setJoinRoomId('');
+        socketRef.current?.emit('leave', { room_id: currentRoomId })
+        socketRef.current?.emit('join', { room_id: newRoomId })
+        setRoom(newRoomId)
+        setNewRoomId('');
     }
 
     return (
@@ -25,8 +26,8 @@ export function RoomControl({ currentRoomId, onJoinRoom, socketRef }: RoomContro
             <div className="input-group">
                 <input
                     type="text"
-                    value={joinRoomId}
-                    onChange={(e) => setJoinRoomId(e.target.value)}
+                    value={newRoomId}
+                    onChange={(e) => setNewRoomId(e.target.value)}
                     placeholder="Enter Room ID"
                     maxLength={5}
                 />

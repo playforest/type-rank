@@ -7,11 +7,14 @@ import { RoomControl } from './components/RoomControl';
 
 export interface ServerToClientEvents {
   room_assigned: (data: { room_id: string }) => void;
+  keystroke: (data: { wpm: number, accuracy: number }) => void;
+
 }
 
 export interface ClientToServerEvents {
   join: (data: { room_id: string }) => void;
-  keystroke: (data: { wpm: number, accuracy: number }) => void;
+  leave: (data: { room_id: string }) => void;
+  keystroke: (data: { room_id: string, wpm: number, accuracy: number }) => void;
   custom_connect_event: (data: string) => void;
 }
 
@@ -32,7 +35,7 @@ function App() {
   const [isTimerActive, setIsTimerActive] = useState<boolean>(false)
   const [wpm, setWPM] = useState<number>(0)
   const [accuracy, setAccuracy] = useState<number>(0)
-  const [autoAssignedRoom, setAutoAssignedRoom] = useState<string>('')
+  const [room, setRoom] = useState<string>('')
   const [isPromptFocus, setIsPromptFocus] = useState<boolean>(true)
 
   function calculateWPM(): void {
@@ -46,6 +49,7 @@ function App() {
       setWPM(currentWPM)
 
       socketRef.current?.emit('keystroke', {
+        room_id: room,
         wpm,
         accuracy
       })
@@ -75,13 +79,8 @@ function App() {
     setIsTypingActive(true)
   }
 
-  function handleJoinRoom(roomId: string) {
-    console.log('joining room', roomId);
-  }
-
   useEffect(() => {
     const checkFocus = () => {
-      console.log(document.activeElement)
       if (!document.activeElement?.contains(promptRef.current)) {
         setIsPromptFocus(false)
       } else {
@@ -108,9 +107,13 @@ function App() {
       });
 
       socketRef.current.on('room_assigned', (data) => {
-        setAutoAssignedRoom(data.room_id)
+        setRoom(data.room_id)
         console.log(`auto assigned room: ${data.room_id}`)
       })
+
+      socketRef.current.on('keystroke', (data) => {
+        console.log(data);
+      });
     }
 
     return () => {
@@ -142,14 +145,11 @@ function App() {
       const handleTextInput = (e: KeyboardEvent) => {
         setIsTimerActive(true)
         calculateAccuracy()
-        // console.table({ cursor, wordCount, timer, wpm, errors });
-        console.log(e.key)
+
         let newInputText: string[] = inputText.slice()
         let newCursor: number = cursor;
 
         if (e.key === 'Backspace') {
-          console.log(`cursor: ${cursor}`)
-
           newInputText.pop()
           setInputText(newInputText)
 
@@ -157,8 +157,6 @@ function App() {
             let newErrors = errors.slice()
             newErrors.pop()
             setErrors(newErrors)
-            console.log(`errors: ${errors}`)
-
           }
 
           if (cursor > 0) {
@@ -169,7 +167,7 @@ function App() {
           }
 
         } else if (!nonCharKeys.includes(e.key)) {
-          console.log(`cursor: ${cursor}`)
+
           if (e.key === ' ') {
             calculateWPM()
             calculateAccuracy()
@@ -219,9 +217,9 @@ function App() {
   return (
     <>
       <RoomControl
-        currentRoomId={autoAssignedRoom}
-        onJoinRoom={handleJoinRoom}
-        socketRef={socketRef} />
+        currentRoomId={room}
+        socketRef={socketRef}
+        setRoom={setRoom} />
       <Prompt
         displayText={displayText}
         promptRef={promptRef}
