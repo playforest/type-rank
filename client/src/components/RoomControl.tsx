@@ -5,24 +5,27 @@ import { ServerToClientEvents, ClientToServerEvents } from "../App";
 import './RoomControlCss.css'
 
 interface RoomControlProps {
+    username: string;
     currentRoomId: string;
     socketRef: React.RefObject<Socket<ServerToClientEvents, ClientToServerEvents> | null>;
     setRoom: (roomId: string) => void;
+    setUsername: (username: string) => void;
 }
 
-export function RoomControl({ currentRoomId, socketRef, setRoom }: RoomControlProps) {
+export function RoomControl({ username, currentRoomId, socketRef, setRoom }: RoomControlProps) {
     const [newRoomId, setNewRoomId] = useState<string>('')
 
     const handleJoinRoom = () => {
         socketRef.current?.emit('leave', { room_id: currentRoomId })
-        socketRef.current?.emit('join', { room_id: newRoomId })
+        socketRef.current?.emit('join', { username: username, room_id: newRoomId })
         setRoom(newRoomId)
         setNewRoomId('');
     }
 
     return (
         <div className="room-control">
-            <div className="current-room">Current Room: {currentRoomId}</div>
+            <div className="current-user"> Username: {username}</div>
+            <div className="current-room"> Room: {currentRoomId}</div>
             <div className="input-group">
                 <input
                     type="text"

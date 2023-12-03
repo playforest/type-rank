@@ -11,6 +11,7 @@
 [*] receive messages from multiplayer room and log to console
 [ ] update 'opponent' stats with data received in message packets 
 [ ] leave room 
+[ ] max participants
 
 * prompt:
 [*] render passage

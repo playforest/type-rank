@@ -6,13 +6,13 @@ import { Stats } from './components/Stats'
 import { RoomControl } from './components/RoomControl';
 
 export interface ServerToClientEvents {
-  room_assigned: (data: { room_id: string }) => void;
+  user_room_assigned: (data: { username: string, room_id: string }) => void;
   keystroke: (data: { wpm: number, accuracy: number }) => void;
 
 }
 
 export interface ClientToServerEvents {
-  join: (data: { room_id: string }) => void;
+  join: (data: { username: string, room_id: string }) => void;
   leave: (data: { room_id: string }) => void;
   keystroke: (data: { room_id: string, wpm: number, accuracy: number }) => void;
   custom_connect_event: (data: string) => void;
@@ -36,6 +36,7 @@ function App() {
   const [wpm, setWPM] = useState<number>(0)
   const [accuracy, setAccuracy] = useState<number>(0)
   const [room, setRoom] = useState<string>('')
+  const [username, setUsername] = useState<string>('')
   const [isPromptFocus, setIsPromptFocus] = useState<boolean>(true)
 
   function calculateWPM(): void {
@@ -106,9 +107,10 @@ function App() {
         socketRef.current?.emit('custom_connect_event', 'from client: user connected!')
       });
 
-      socketRef.current.on('room_assigned', (data) => {
+      socketRef.current.on('user_room_assigned', (data) => {
+        setUsername(data.username)
         setRoom(data.room_id)
-        console.log(`auto assigned room: ${data.room_id}`)
+        console.log(`user: ${data.username} assigned room: ${data.room_id}`)
       })
 
       socketRef.current.on('keystroke', (data) => {
@@ -217,9 +219,11 @@ function App() {
   return (
     <>
       <RoomControl
+        username={username}
         currentRoomId={room}
         socketRef={socketRef}
-        setRoom={setRoom} />
+        setRoom={setRoom}
+        setUsername={setUsername} />
       <Prompt
         displayText={displayText}
         promptRef={promptRef}
