@@ -241,6 +241,19 @@ function App() {
     }
   }, [cursor, isTypingActive])
 
+  useEffect(() => {
+    const handleBeforeUnload = () => {
+      socketRef.current?.emit('leave', { room_id: room })
+    };
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+    };
+  }, []);
+
+
   return (
     <>
       <RoomControl
