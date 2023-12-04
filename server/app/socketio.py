@@ -37,4 +37,5 @@ def handle_leave(data):
     # username = data['username']
     room_id = data['room_id']
     leave_room(room_id)
+    print(f'User has left the room: {room_id}')
     send(f'username has left the room', to=room_id)
