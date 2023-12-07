@@ -1,11 +1,4 @@
-* server:
-[ ] serve page from flask
-[ ] implement socketio
-
-## databases:
-
-
-* client:
+# client:
 ## socket stuff:
 [*] update 'current room' id upon joining said room
 [*] receive messages from multiplayer room and log to console
@@ -25,17 +18,20 @@
 [*] restart
 [ ] highlight incorrect spaces
 
-* stats:
+## stats:
 [*] change font of kpis
 [*] add placeholder for opponent stats 
 
-* good to have:
+## Auth
+[ ] login form
+
+## good to have:
 [*] smooth sliding of underline cursor
 [*] multiline passages
 [ ] move css to static files
 [ ] only load prompt after static font is downloaded
 
-* bugs:
+## bugs:
 [*] 'fl' are rendered in seperate spans but one's width subsumes the other
 [ ] cursor continues to be incremented with multiple correct keypresses
 [ ] when backspacing, cursor 1 step ahead of actual key to be removed
