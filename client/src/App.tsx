@@ -4,6 +4,9 @@ import { io, Socket } from 'socket.io-client';
 import { Prompt } from './components/Prompt'
 import { Stats } from './components/Stats'
 import { RoomControl } from './components/RoomControl';
+import { UserLogin } from './components/UserLogin';
+
+import './App.css';
 
 export interface ServerToClientEvents {
   user_room_assigned: (data: { username: string, room_id: string }) => void;
@@ -256,12 +259,18 @@ function App() {
 
   return (
     <>
-      <RoomControl
-        username={username}
-        currentRoomId={room}
-        socketRef={socketRef}
-        setRoom={setRoom}
-        setUsername={setUsername} />
+      <div
+        className='right-aligned-container'>
+        <UserLogin
+          onLogin={() => { }}
+        />
+        <RoomControl
+          username={username}
+          currentRoomId={room}
+          socketRef={socketRef}
+          setRoom={setRoom}
+          setUsername={setUsername} />
+      </div>
       <Prompt
         displayText={displayText}
         promptRef={promptRef}

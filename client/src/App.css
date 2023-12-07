@@ -1,0 +1,12 @@
+.right-aligned-container {
+    position: absolute;
+    top: 10px;
+    /* Adjust this value as necessary */
+    right: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    /* Align children to the right */
+    width: 250px;
+    /* Adjust this width to fit your design */
+}

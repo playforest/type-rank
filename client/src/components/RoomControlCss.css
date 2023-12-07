@@ -1,5 +1,4 @@
 .room-control {
-    position: absolute;
     top: 10px;
     right: 10px;
     background-color: black;
@@ -11,6 +10,8 @@
     align-items: flex-start;
     font-family: Menlo, Monaco, 'Courier New', monospace;
     font-size: 10px;
+    width: 200px;
+    margin-bottom: 10px;
 }
 
 .current-room {
@@ -19,11 +20,8 @@
 
 .room-control .input-group {
     display: flex;
-    /* Aligns items inline */
-    gap: 10px;
-    /* Adds space between input and button */
+    gap: 7px;
     align-items: center;
-    /* Vertically aligns items in the flex container */
 }
 
 .room-control input {
@@ -37,9 +35,7 @@
     line-height: 1;
     width: 100px;
     vertical-align: middle;
-    /* Align text box vertically */
     box-sizing: border-box;
-    /* Include padding and border in the height calculation */
 }
 
 .room-control button {
@@ -52,9 +48,6 @@
     cursor: pointer;
     height: 20px;
     line-height: 1;
-    /* Normal line height */
     vertical-align: middle;
-    /* Align button vertically */
     box-sizing: border-box;
-    /* Include padding and border in the height calculation */
 }

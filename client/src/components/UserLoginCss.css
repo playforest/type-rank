@@ -1,0 +1,90 @@
+.user-login {
+    background-color: black;
+    color: #c7c7c7;
+    padding: 5px;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    font-family: Menlo, Monaco, 'Courier New', monospace;
+    font-size: 10px;
+    margin-bottom: 10px;
+    width: 205px;
+}
+
+.forms-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0px;
+}
+
+.user-login form {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-betwdeen;
+    align-items: center;
+    gap: 0px;
+    width: 100%;
+}
+
+@media (max-width: 600px) {
+    .user-login form {
+        flex-direction: row;
+    }
+}
+
+.user-login input {
+    background-color: #1A1A1A;
+    color: #c7c7c7;
+    border: 1px solid #c7c7c7;
+    padding: 3px 5px;
+    width: 65px;
+    line-height: 1;
+    font-size: 10px;
+    flex: 1;
+    margin-right: 7px;
+    font-family: Menlo, Monaco, 'Courier New', monospace;
+
+}
+
+.user-login button {
+    background-color: hsl(0, 0%, 10%);
+    color: #7FFF00;
+    border: 1px solid #7FFF00;
+    padding: 3px 5px;
+    font-size: 10px;
+    cursor: pointer;
+    font-family: Menlo, Monaco, 'Courier New', monospace;
+
+}
+
+.login-links {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-top: 5px;
+}
+
+.login-links a {
+    color: #c7c7c7;
+    text-decoration: none;
+    font-size: 10px;
+}
+
+
+.login-links a {
+    color: #c7c7c7;
+    text-decoration: none;
+    font-size: 10px;
+}
+
+.forgot-password a {
+    color: rgb(114, 114, 114);
+    text-align: left;
+}
+
+.create-password a {
+    text-align: right;
+    flex: 1;
+}
