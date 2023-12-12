@@ -3,8 +3,8 @@ import './UserLoginCss.css'
 
 interface LoginProps {
     onLogin: () => void;
-    setUsername: () => void;
-    setPassword: () => void;
+    // setUsername: () => void;
+    // setPassword: () => void;
     onRegister: (email: string, username: string, password: string) => void;
 }
 
@@ -28,7 +28,7 @@ export function UserLogin({ onLogin, onRegister }: LoginProps) {
     };
 
     return (
-        <form className="user-login" onSubmit={handleSubmit}>
+        <form className={isRegistering ? "user-login is-registering" : "user-login"} onSubmit={handleSubmit}>
             <div className="forms-container">
                 {isRegistering && (
                     <input

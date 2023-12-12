@@ -105,6 +105,10 @@ function App() {
     setIsTypingActive(true)
   }
 
+  function onRegister(email: string, username: string, password: string): void {
+    console.log(`email: ${email}, username: ${username}, password: ${password}`)
+  }
+
   useEffect(() => {
     const checkFocus = () => {
       if (!document.activeElement?.contains(promptRef.current)) {
@@ -263,6 +267,7 @@ function App() {
         className='right-aligned-container'>
         <UserLogin
           onLogin={() => { }}
+          onRegister={onRegister}
         />
         <RoomControl
           username={username}

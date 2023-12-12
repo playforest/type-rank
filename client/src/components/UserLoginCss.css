@@ -10,6 +10,7 @@
     font-size: 10px;
     margin-bottom: 10px;
     width: 205px;
+    transition: width 0.5s ease, margin-right 0.5s ease;
 }
 
 .forms-container {
@@ -20,12 +21,14 @@
 }
 
 .user-login form {
+    position: relative;
     display: flex;
     flex-direction: row;
     justify-content: space-betwdeen;
     align-items: center;
     gap: 0px;
     width: 100%;
+    transition: margin-right 0.5s ease;
 }
 
 @media (max-width: 600px) {
@@ -87,4 +90,9 @@
 .create-password a {
     text-align: right;
     flex: 1;
+}
+
+.user-login.is-registering {
+    margin-right: -50px;
+    width: calc(100% + 100px);
 }
