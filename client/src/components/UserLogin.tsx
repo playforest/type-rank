@@ -1,50 +1,63 @@
-import React, { FormEvent, useState } from "react";
-
+import { FormEvent, useState } from "react";
 import './UserLoginCss.css'
 
 interface LoginProps {
-    // setUsername: () => void;
-    // setPassword: () => void;
     onLogin: () => void;
+    setUsername: () => void;
+    setPassword: () => void;
+    onRegister: (email: string, username: string, password: string) => void;
 }
 
-export function UserLogin({ onLogin }: LoginProps) {
-    const [username, setLocalUsername] = useState("");
-    const [password, setLocalPassword] = useState("");
+export function UserLogin({ onLogin, onRegister }: LoginProps) {
+    const [isRegistering, setIsRegistering] = useState<boolean>(false);
+    const [email, setEmail] = useState<string>("")
+    const [username, setUsername] = useState<string>("");
+    const [password, setPassword] = useState<string>("");
 
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        setLocalUsername(username);
-        setLocalPassword(password);
-        onLogin();
+        if (isRegistering) {
+            onRegister(email, username, password);
+        } else {
+            onLogin();
+        }
+    };
+
+    const handleSwitchForm = () => {
+        setIsRegistering(!isRegistering);
     };
 
     return (
-
         <form className="user-login" onSubmit={handleSubmit}>
             <div className="forms-container">
+                {isRegistering && (
+                    <input
+                        type="text"
+                        name="email"
+                        placeholder="Email"
+                        onChange={(e) => setEmail(e.target.value)}
+                    />
+                )}
                 <input
                     type="text"
+                    name="username"
                     value={username}
-                    onChange={(e) => setLocalUsername(e.target.value)}
+                    onChange={(e) => setUsername(e.target.value)}
                     placeholder="Username"
                 />
                 <input
                     type="password"
+                    name="password"
                     value={password}
-                    onChange={(e) => setLocalPassword(e.target.value)}
+                    onChange={(e) => setPassword(e.target.value)}
                     placeholder="Password"
                 />
-                <button type="submit">Login</button>
-
+                <button type="submit" name="submit">{isRegistering ? "Register" : "Login"}</button>
             </div>
             <div className="login-links">
-                <div className="forgot-password">
-                    <a href="#">Forgot Password</a>
-                </div>
-                <div className="create-account">
-                    <a href="#">Create Account</a>
-                </div>
+                <a href="#" onClick={handleSwitchForm}>
+                    {isRegistering ? "Back to Login" : "Create Account"}
+                </a>
             </div>
         </form>
     );
