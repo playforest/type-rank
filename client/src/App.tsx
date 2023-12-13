@@ -43,8 +43,15 @@ function App() {
   const [room, setRoom] = useState<string>('')
   const [username, setUsername] = useState<string>('')
   const [isPromptFocus, setIsPromptFocus] = useState<boolean>(true)
+  const [csrfToken, setCsrfToken] = useState<string>('');
 
   const usernameRef = useRef(username)
+
+  useEffect(() => {
+    fetch('/csrf-token')
+      .then(response => response.json())
+      .then(data => setCsrfToken(data.csrfToken))
+  }, []);
 
   useEffect(() => {
     usernameRef.current = username;
@@ -107,6 +114,29 @@ function App() {
 
   function onRegister(email: string, username: string, password: string): void {
     console.log(`email: ${email}, username: ${username}, password: ${password}`)
+
+    const protocol: string = window.location.protocol;
+    const hostname: string = window.location.hostname;
+    const port: string = window.location.port ? `:${window.location.port}` : '';
+    const signupUrl = `${protocol}//${hostname}${port}/signup`;
+
+    const options = {
+      'method': 'POST',
+      'body': JSON.stringify({
+        email,
+        username,
+        password,
+        csrf_token: csrfToken
+      }),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }
+    fetch(signupUrl, options)
+      .then(response => response.json())
+      .then(data => {
+        console.log(data)
+      })
   }
 
   useEffect(() => {
