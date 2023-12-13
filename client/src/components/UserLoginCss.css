@@ -10,7 +10,7 @@
     font-size: 10px;
     margin-bottom: 10px;
     width: 205px;
-    transition: width 0.5s ease, margin-right 0.5s ease;
+    transition: width 0.25s ease, margin-right 0.25s ease;
 }
 
 .forms-container {
