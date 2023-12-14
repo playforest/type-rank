@@ -51,6 +51,18 @@
 
 }
 
+.user-login input.invalid {
+    border: 1px solid red !important;
+    color: red;
+    transition: color 0.35s ease, border 0.35s ease;
+}
+
+.user-login input.valid {
+    border: 1px solid green !important;
+    color: greenyellow;
+    transition: color 0.35s ease, border 0.35s ease;
+}
+
 .user-login button {
     background-color: hsl(0, 0%, 10%);
     color: #7FFF00;
