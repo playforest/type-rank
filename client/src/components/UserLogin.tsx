@@ -1,4 +1,6 @@
-import { ChangeEvent, FormEvent, useEffect, useState } from "react";
+import { ChangeEvent, FormEvent, useEffect, useState, useRef } from "react";
+import { Tooltip, TooltipRefProps } from "react-tooltip";
+
 import './UserLoginCss.css'
 
 interface LoginProps {
@@ -15,7 +17,9 @@ export function UserLogin({ onLogin, onRegister }: LoginProps) {
     const [password, setPassword] = useState<string>("");
     const [timer, setTimer] = useState<number>();
     const [usernameIsValid, setUsernameIsValid] = useState<boolean | undefined>(undefined);
+    const [usernameValidationMessage, setUsernameValidationMessage] = useState<string>("");
 
+    const usernameInputRef = useRef<TooltipRefProps>(null);
     const MIN_USERNAME_LENGTH: number = 3;
     const USERNAME_VERIFICATION_INTERVAL: number = 1000;
 
@@ -63,8 +67,10 @@ export function UserLogin({ onLogin, onRegister }: LoginProps) {
                         console.log(data)
                         if (data.usernameExists) {
                             setUsernameIsValid(false)
+                            setUsernameValidationMessage("username unavailable :(")
                         } else {
                             setUsernameIsValid(true)
+                            setUsernameValidationMessage("username available!")
                         }
                     })
                 console.log(inputUsername)
@@ -82,6 +88,14 @@ export function UserLogin({ onLogin, onRegister }: LoginProps) {
         }
     }, [timer])
 
+    useEffect(() => {
+        if (usernameInputRef.current && usernameValidationMessage) {
+            usernameInputRef.current.open({
+                content: usernameValidationMessage
+            })
+        }
+    }, [usernameValidationMessage])
+
     return (
         <form className={isRegistering ? "user-login is-registering" : "user-login"} onSubmit={handleSubmit}>
             <div className="forms-container">
@@ -94,18 +108,25 @@ export function UserLogin({ onLogin, onRegister }: LoginProps) {
                     />
                 )}
                 <input
-                    className={
+                    id={
                         isRegistering ?
                             usernameIsValid === undefined || username.length < MIN_USERNAME_LENGTH
                                 ? 'neutral'
                                 : usernameIsValid ? 'valid' : 'invalid'
                             : ''}
+                    className="username"
+                    autoComplete="off"
                     type="text"
                     name="username"
                     value={username}
                     onChange={handleOnUsernameChange}
                     placeholder="Username"
+
+
+                    data-tooltip-id="input-tooltip"
+                    data-tooltip-content={usernameValidationMessage}
                 />
+                {usernameValidationMessage && <Tooltip ref={usernameInputRef} id="input-tooltip" />}
                 <input
                     type="password"
                     name="password"
@@ -113,7 +134,10 @@ export function UserLogin({ onLogin, onRegister }: LoginProps) {
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="Password"
                 />
-                <button type="submit" name="submit">{isRegistering ? "Register" : "Login"}</button>
+                <button
+                    data-tooltip-id="submit-tooltip" data-tooltip-content="Hello world!"
+                    type="submit" name="submit">{isRegistering ? "Register" : "Login"}</button>
+                <Tooltip id="submit-tooltip" />
             </div>
             <div className="login-links">
                 <a href="#" onClick={handleSwitchForm}>

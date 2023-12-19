@@ -108,3 +108,25 @@
     margin-right: -50px;
     width: calc(100% + 100px);
 }
+
+.username-status {
+    color: #c7c7c7;
+    font-size: 10px;
+    margin-top: 2px;
+    /* Adjust the spacing as needed */
+    font-family: Menlo, Monaco, 'Courier New', monospace;
+    width: 100%;
+    /* Ensures it occupies the full width beneath the username input */
+    text-align: left;
+    /* Aligns the text to the left */
+}
+
+.username-status.available {
+    color: green;
+    /* Color for available username message */
+}
+
+.username-status.taken {
+    color: red;
+    /* Color for taken username message */
+}
