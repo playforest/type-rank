@@ -139,6 +139,31 @@ function App() {
       })
   }
 
+  function onLogin(username: string, password: string, remember: boolean = false): void {
+    const protocol: string = window.location.protocol;
+    const hostname: string = window.location.hostname;
+    const port: string = window.location.port ? `:${window.location.port}` : '';
+    const loginUrl: string = `${protocol}//${hostname}${port}/login`;
+
+    const options = {
+      'method': 'POST',
+      'body': JSON.stringify({
+        username,
+        password,
+        remember,
+        csrf_token: csrfToken
+      }),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }
+    fetch(loginUrl, options)
+      .then(response => response.json())
+      .then(data => {
+        console.log(data)
+      })
+  }
+
   useEffect(() => {
     const checkFocus = () => {
       if (!document.activeElement?.contains(promptRef.current)) {
@@ -296,7 +321,7 @@ function App() {
       <div
         className='right-aligned-container'>
         <UserLogin
-          onLogin={() => { }}
+          onLogin={onLogin}
           onRegister={onRegister}
         />
         <RoomControl

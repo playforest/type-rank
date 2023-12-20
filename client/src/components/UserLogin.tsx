@@ -4,7 +4,7 @@ import { Tooltip, TooltipRefProps } from "react-tooltip";
 import './UserLoginCss.css'
 
 interface LoginProps {
-    onLogin: () => void;
+    onLogin: (username: string, password: string, remember: boolean) => void;
     // setUsername: () => void;
     // setPassword: () => void;
     onRegister: (email: string, username: string, password: string) => void;
@@ -28,7 +28,7 @@ export function UserLogin({ onLogin, onRegister }: LoginProps) {
         if (isRegistering) {
             onRegister(email, username, password);
         } else {
-            onLogin();
+            onLogin(username, password, false);
         }
     };
 
@@ -135,9 +135,7 @@ export function UserLogin({ onLogin, onRegister }: LoginProps) {
                     placeholder="Password"
                 />
                 <button
-                    data-tooltip-id="submit-tooltip" data-tooltip-content="Hello world!"
                     type="submit" name="submit">{isRegistering ? "Register" : "Login"}</button>
-                <Tooltip id="submit-tooltip" />
             </div>
             <div className="login-links">
                 <a href="#" onClick={handleSwitchForm}>
