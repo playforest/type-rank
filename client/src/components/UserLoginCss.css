@@ -130,3 +130,43 @@
     color: red;
     /* Color for taken username message */
 }
+
+.logged-in-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.username-display {
+    color: #c7c7c7;
+    font-size: 10px;
+    font-family: Menlo, Monaco, 'Courier New', monospace;
+}
+
+.logout-button {
+    /* Same style as your existing buttons */
+    background-color: hsl(0, 0%, 10%);
+    color: #7FFF00;
+    border: 1px solid #7FFF00;
+    padding: 3px 5px;
+    font-size: 10px;
+    cursor: pointer;
+    font-family: Menlo, Monaco, 'Courier New', monospace;
+}
+
+.login-links {
+    /* Existing styles */
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+    margin-top: 5px;
+}
+
+.login-links a {
+    /* Existing styles */
+    color: #c7c7c7;
+    text-decoration: none;
+    font-size: 10px;
+    text-align: left;
+}

@@ -44,13 +44,16 @@ function App() {
   const [username, setUsername] = useState<string>('')
   const [isPromptFocus, setIsPromptFocus] = useState<boolean>(true)
   const [csrfToken, setCsrfToken] = useState<string>('');
-
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const usernameRef = useRef(username)
 
   useEffect(() => {
     fetch('/csrf-token')
       .then(response => response.json())
-      .then(data => setCsrfToken(data.csrfToken))
+      .then(data => {
+        console.log(data.csrfToken)
+        setCsrfToken(data.csrfToken)
+      })
   }, []);
 
   useEffect(() => {
@@ -161,7 +164,41 @@ function App() {
       .then(response => response.json())
       .then(data => {
         console.log(data)
+        if (data.status == 'LOGIN_SUCCESSFULL') {
+          setIsLoggedIn(true)
+        }
       })
+  }
+
+  useEffect(() => {
+    console.log('isLoggedIn updated:', isLoggedIn);
+  }, [isLoggedIn]);
+
+  function onLogout(username: string): void {
+    const protocol: string = window.location.protocol;
+    const hostname: string = window.location.hostname;
+    const port: string = window.location.port ? `:${window.location.port}` : '';
+    const logoutUrl: string = `${protocol}//${hostname}${port}/logout`;
+
+    const options = {
+      'method': 'POST',
+      'body': JSON.stringify({
+        csrf_token: csrfToken
+      }),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }
+    fetch(logoutUrl, options)
+      .then(response => response.json())
+      .then(data => {
+        console.log(data)
+        if (data.status == 'LOGOUT_SUCCESSFULL') {
+          console.log(`user ${username} logged out successfully`)
+          setIsLoggedIn(true)
+        }
+      })
+    setIsLoggedIn(false)
   }
 
   useEffect(() => {
@@ -323,6 +360,9 @@ function App() {
         <UserLogin
           onLogin={onLogin}
           onRegister={onRegister}
+          onLogout={onLogout}
+          isLoggedIn={isLoggedIn}
+          setIsLoggedIn={setIsLoggedIn}
         />
         <RoomControl
           username={username}

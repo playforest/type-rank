@@ -5,12 +5,13 @@ import './UserLoginCss.css'
 
 interface LoginProps {
     onLogin: (username: string, password: string, remember: boolean) => void;
-    // setUsername: () => void;
-    // setPassword: () => void;
     onRegister: (email: string, username: string, password: string) => void;
+    onLogout: (username: string) => void;
+    isLoggedIn: boolean;
+    setIsLoggedIn: (isLoggedIn: boolean) => void;
 }
 
-export function UserLogin({ onLogin, onRegister }: LoginProps) {
+export function UserLogin({ onLogin, onRegister, onLogout, isLoggedIn, setIsLoggedIn }: LoginProps) {
     const [isRegistering, setIsRegistering] = useState<boolean>(false);
     const [email, setEmail] = useState<string>("")
     const [username, setUsername] = useState<string>("");
@@ -25,10 +26,12 @@ export function UserLogin({ onLogin, onRegister }: LoginProps) {
 
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        if (isRegistering) {
+        if (isRegistering && !isLoggedIn) {
             onRegister(email, username, password);
-        } else {
+        } else if (!isRegistering && !isLoggedIn) {
             onLogin(username, password, false);
+        } else if (!isRegistering && isLoggedIn) {
+            setIsLoggedIn(false)
         }
     };
 
@@ -80,6 +83,11 @@ export function UserLogin({ onLogin, onRegister }: LoginProps) {
         setTimer(newTimer);
     }
 
+    const handleLogout = () => {
+        onLogout(username)
+        setIsLoggedIn(false)
+    }
+
     useEffect(() => {
         return () => {
             if (timer) {
@@ -95,6 +103,26 @@ export function UserLogin({ onLogin, onRegister }: LoginProps) {
             })
         }
     }, [usernameValidationMessage])
+
+    if (isLoggedIn) {
+        return (
+            <div className="user-login">
+                <div className="forms-container logged-in-container">
+                    <div className="username-display">hey, <b>{username}</b></div>
+                    <button
+                        type="submit" name="submit" onClick={handleLogout} className="logout-button">
+                        Logout
+                    </button>
+                </div>
+                <div className="login-links">
+                    <a href="#" onClick={handleLogout}>
+                        User settings
+                    </a>
+                </div>
+            </div>
+        );
+    }
+
 
     return (
         <form className={isRegistering ? "user-login is-registering" : "user-login"} onSubmit={handleSubmit}>
@@ -135,7 +163,11 @@ export function UserLogin({ onLogin, onRegister }: LoginProps) {
                     placeholder="Password"
                 />
                 <button
-                    type="submit" name="submit">{isRegistering ? "Register" : "Login"}</button>
+                    type="submit" name="submit">{
+                        isRegistering && !isLoggedIn
+                            ? "Register"
+                            : isLoggedIn ? "Logout" : "Login"}
+                </button>
             </div>
             <div className="login-links">
                 <a href="#" onClick={handleSwitchForm}>
