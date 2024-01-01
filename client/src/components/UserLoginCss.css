@@ -155,18 +155,54 @@
     font-family: Menlo, Monaco, 'Courier New', monospace;
 }
 
-.login-links {
-    /* Existing styles */
+.remember-me-container {
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
+    align-items: center;
     width: 100%;
     margin-top: 5px;
 }
 
+.remember-me {
+    display: flex;
+    align-items: center;
+}
+
+.remember-me input[type="checkbox"] {
+    margin-right: 1px;
+    /* Adjust as needed */
+}
+
+.login-links {
+    display: flex;
+    justify-content: flex-start;
+    /* Change this to flex-start to align to the left */
+    flex-grow: 1;
+    /* Allows the link to take up the rest of the space */
+}
+
 .login-links a {
-    /* Existing styles */
     color: #c7c7c7;
     text-decoration: none;
     font-size: 10px;
     text-align: left;
+    /* Ensures text aligns to the left */
+}
+
+input[type="checkbox"] {
+    margin: 0;
+    /* Removes default margin */
+    vertical-align: middle;
+    /* Aligns checkbox vertically with the text */
+    width: 16px;
+    height: 16px;
+}
+
+.remember-me label {
+    margin: 0;
+    /* Removes default margin */
+    display: inline-block;
+    /* Ensures the label is aligned with the checkbox */
+    vertical-align: middle;
+    /* Aligns text vertically with the checkbox */
 }

@@ -18,6 +18,7 @@ export function UserLogin({ onLogin, onRegister, onLogout, isLoggedIn, setIsLogg
     const [email, setEmail] = useState<string>("")
     const [username, setUsername] = useState<string>("");
     const [password, setPassword] = useState<string>("");
+    const [rememberMe, setRememberMe] = useState<boolean>(false);
     const [timer, setTimer] = useState<number>();
     const [usernameIsValid, setUsernameIsValid] = useState<boolean | undefined>(undefined);
     const [usernameValidationMessage, setUsernameValidationMessage] = useState<string>("");
@@ -32,7 +33,7 @@ export function UserLogin({ onLogin, onRegister, onLogout, isLoggedIn, setIsLogg
         if (isRegistering && !isLoggedIn) {
             onRegister(email, username, password);
         } else if (!isRegistering && !isLoggedIn) {
-            onLogin(username, password, false);
+            onLogin(username, password, rememberMe);
         } else if (!isRegistering && isLoggedIn) {
             setIsLoggedIn(false)
         }
@@ -172,6 +173,7 @@ export function UserLogin({ onLogin, onRegister, onLogout, isLoggedIn, setIsLogg
                     data-tooltip-content={usernameValidationMessage}
                 />
                 {usernameValidationMessage && <Tooltip ref={usernameInputRef} id="username-tooltip" />}
+
                 <input
                     type="password"
                     name="password"
@@ -190,10 +192,21 @@ export function UserLogin({ onLogin, onRegister, onLogout, isLoggedIn, setIsLogg
                             : isLoggedIn ? "Logout" : "Login"}
                 </button>
             </div>
-            <div className="login-links">
-                <a href="#" onClick={handleSwitchForm}>
-                    {isRegistering ? "Back to Login" : "Create Account"}
-                </a>
+            <div className="remember-me-container">
+                <div className="remember-me">
+                    <input
+                        id="rememberMe"
+                        type="checkbox"
+                        checked={rememberMe}
+                        onChange={(e) => setRememberMe(e.target.checked)}
+                    />
+                    <label htmlFor="rememberMe">Remember me</label>
+                </div>
+                <div className="login-links">
+                    <a href="#" onClick={handleSwitchForm}>
+                        {isRegistering ? "Back to Login" : "Create Account"}
+                    </a>
+                </div>
             </div>
         </form>
     );
