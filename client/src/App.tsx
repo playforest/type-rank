@@ -45,6 +45,7 @@ function App() {
   const [isPromptFocus, setIsPromptFocus] = useState<boolean>(true)
   const [csrfToken, setCsrfToken] = useState<string>('');
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+  const [loginError, setLoginError] = useState<string | null>(null);
   const usernameRef = useRef(username)
 
   useEffect(() => {
@@ -163,9 +164,20 @@ function App() {
     fetch(loginUrl, options)
       .then(response => response.json())
       .then(data => {
+
         console.log(data)
         if (data.status == 'LOGIN_SUCCESSFULL') {
           setIsLoggedIn(true)
+        } else {
+          let errorMessage: string = 'Invalid credentialsl';
+
+          if (data.status == 'INVALID_PASSWORD') {
+            errorMessage = 'Invalid password';
+          } else if (data.status == 'INVALID_USERNAME') {
+            errorMessage = 'Invalid username';
+          }
+
+          setLoginError(errorMessage)
         }
       })
   }
@@ -363,6 +375,8 @@ function App() {
           onLogout={onLogout}
           isLoggedIn={isLoggedIn}
           setIsLoggedIn={setIsLoggedIn}
+          loginError={loginError}
+          clearLoginError={() => setLoginError(null)}
         />
         <RoomControl
           username={username}

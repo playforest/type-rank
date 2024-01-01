@@ -9,9 +9,11 @@ interface LoginProps {
     onLogout: (username: string) => void;
     isLoggedIn: boolean;
     setIsLoggedIn: (isLoggedIn: boolean) => void;
+    loginError: string | null;
+    clearLoginError: () => void;
 }
 
-export function UserLogin({ onLogin, onRegister, onLogout, isLoggedIn, setIsLoggedIn }: LoginProps) {
+export function UserLogin({ onLogin, onRegister, onLogout, isLoggedIn, setIsLoggedIn, loginError, clearLoginError }: LoginProps) {
     const [isRegistering, setIsRegistering] = useState<boolean>(false);
     const [email, setEmail] = useState<string>("")
     const [username, setUsername] = useState<string>("");
@@ -21,6 +23,7 @@ export function UserLogin({ onLogin, onRegister, onLogout, isLoggedIn, setIsLogg
     const [usernameValidationMessage, setUsernameValidationMessage] = useState<string>("");
 
     const usernameInputRef = useRef<TooltipRefProps>(null);
+    const passwordInputRef = useRef<TooltipRefProps>(null);
     const MIN_USERNAME_LENGTH: number = 3;
     const USERNAME_VERIFICATION_INTERVAL: number = 1000;
 
@@ -40,6 +43,7 @@ export function UserLogin({ onLogin, onRegister, onLogout, isLoggedIn, setIsLogg
     };
 
     const handleOnUsernameChange = (event: ChangeEvent<HTMLInputElement>) => {
+        clearLoginError();
         const inputUsername: string = event.target.value;
         setUsername(inputUsername)
 
@@ -83,6 +87,11 @@ export function UserLogin({ onLogin, onRegister, onLogout, isLoggedIn, setIsLogg
         setTimer(newTimer);
     }
 
+    const handleOnPasswordChange = (event: ChangeEvent<HTMLInputElement>) => {
+        clearLoginError();
+        setPassword(event.target.value)
+    }
+
     const handleLogout = () => {
         onLogout(username)
         setIsLoggedIn(false)
@@ -103,6 +112,14 @@ export function UserLogin({ onLogin, onRegister, onLogout, isLoggedIn, setIsLogg
             })
         }
     }, [usernameValidationMessage])
+
+    useEffect(() => {
+        if (passwordInputRef.current && loginError) {
+            passwordInputRef.current.open({
+                content: loginError
+            })
+        }
+    }, [loginError])
 
     if (isLoggedIn) {
         return (
@@ -151,17 +168,21 @@ export function UserLogin({ onLogin, onRegister, onLogout, isLoggedIn, setIsLogg
                     placeholder="Username"
 
 
-                    data-tooltip-id="input-tooltip"
+                    data-tooltip-id="username-tooltip"
                     data-tooltip-content={usernameValidationMessage}
                 />
-                {usernameValidationMessage && <Tooltip ref={usernameInputRef} id="input-tooltip" />}
+                {usernameValidationMessage && <Tooltip ref={usernameInputRef} id="username-tooltip" />}
                 <input
                     type="password"
                     name="password"
                     value={password}
-                    onChange={(e) => setPassword(e.target.value)}
+                    onChange={handleOnPasswordChange}
                     placeholder="Password"
+
+                    data-tooltip-id="password-tooltip"
+                    data-tooltip-content={loginError}
                 />
+                {loginError && <Tooltip ref={passwordInputRef} id="password-tooltip" />}
                 <button
                     type="submit" name="submit">{
                         isRegistering && !isLoggedIn
