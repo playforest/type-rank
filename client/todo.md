@@ -25,9 +25,10 @@
 ## Auth
 ### login form
 - [*] registration form
-- [ ] onRegistration function to pass form data to /signup endpoint
-- [ ] call /usernameExists endpoint as live validation whilst typing
+- [*] onRegistration function to pass form data to /signup endpoint
+- [*] call /usernameExists endpoint as live validation whilst typing
 - [ ] status of registration
+- [ ] remembered user state should persist on refresh
 
 ## good to have:
 - [*] smooth sliding of underline cursor
