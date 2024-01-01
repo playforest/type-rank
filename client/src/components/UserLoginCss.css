@@ -74,20 +74,6 @@
 
 }
 
-.login-links {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-    margin-top: 5px;
-}
-
-.login-links a {
-    color: #c7c7c7;
-    text-decoration: none;
-    font-size: 10px;
-}
-
-
 .login-links a {
     color: #c7c7c7;
     text-decoration: none;
@@ -157,52 +143,60 @@
 
 .remember-me-container {
     display: flex;
+    flex-direction: row;
+    /* Stack the checkbox and the link vertically */
     justify-content: space-between;
     align-items: center;
+    /* Align to the start of the flex container */
     width: 100%;
+    /* Take the full width of the parent */
     margin-top: 5px;
 }
 
 .remember-me {
     display: flex;
+    flex-direction: row;
     align-items: center;
+    /* Align checkbox and label on the same line */
+    margin-bottom: 0px;
+    /* Add some space between this and the 'Create Account' link */
 }
 
 .remember-me input[type="checkbox"] {
-    margin-right: 1px;
-    /* Adjust as needed */
+    margin-right: 5px;
+    /* Adjust spacing between checkbox and label */
+    vertical-align: middle;
+    /* Vertically align with the text */
+
+    width: 13px;
+    height: 13px;
+}
+
+.remember-me label {
+    margin: 0;
+    white-space: nowrap;
+    /* Remove any default margin */
+    display: inline;
+    /* Ensure it doesn't take up more space than it needs */
+    vertical-align: middle;
+    /* Aligns text vertically with the checkbox */
 }
 
 .login-links {
     display: flex;
     justify-content: flex-start;
-    /* Change this to flex-start to align to the left */
-    flex-grow: 1;
-    /* Allows the link to take up the rest of the space */
+    /* Align 'Create Account' to the left */
+    width: 100%;
+    /* Full width to fill the space */
+    margin-top: 0;
+    /* No additional space needed at the top */
 }
 
+/* Ensure the link is left-aligned under the 'Remember me' text */
 .login-links a {
+    white-space: nowrap;
     color: #c7c7c7;
     text-decoration: none;
     font-size: 10px;
-    text-align: left;
-    /* Ensures text aligns to the left */
-}
-
-input[type="checkbox"] {
-    margin: 0;
-    /* Removes default margin */
-    vertical-align: middle;
-    /* Aligns checkbox vertically with the text */
-    width: 16px;
-    height: 16px;
-}
-
-.remember-me label {
-    margin: 0;
-    /* Removes default margin */
-    display: inline-block;
-    /* Ensures the label is aligned with the checkbox */
-    vertical-align: middle;
-    /* Aligns text vertically with the checkbox */
+    margin-left: 15px;
 }
