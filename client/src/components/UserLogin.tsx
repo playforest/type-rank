@@ -9,14 +9,16 @@ interface LoginProps {
     onLogout: (username: string) => void;
     isLoggedIn: boolean;
     setIsLoggedIn: (isLoggedIn: boolean) => void;
+    setUsername: (username: string) => void;
+    username: string;
     loginError: string | null;
     clearLoginError: () => void;
 }
 
-export function UserLogin({ onLogin, onRegister, onLogout, isLoggedIn, setIsLoggedIn, loginError, clearLoginError }: LoginProps) {
+export function UserLogin({ onLogin, onRegister, onLogout, isLoggedIn, setIsLoggedIn, loginError, clearLoginError, setUsername, username }: LoginProps) {
     const [isRegistering, setIsRegistering] = useState<boolean>(false);
     const [email, setEmail] = useState<string>("")
-    const [username, setUsername] = useState<string>("");
+    // const [username, setUsername] = useState<string>("");
     const [password, setPassword] = useState<string>("");
     const [rememberMe, setRememberMe] = useState<boolean>(false);
     const [timer, setTimer] = useState<number>();

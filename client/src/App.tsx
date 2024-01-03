@@ -186,6 +186,30 @@ function App() {
     console.log('isLoggedIn updated:', isLoggedIn);
   }, [isLoggedIn]);
 
+  useEffect(() => {
+    const checkLoginStatus = async () => {
+      try {
+        const protocol: string = window.location.protocol;
+        const hostname: string = window.location.hostname;
+        const port: string = window.location.port ? `:${window.location.port}` : '';
+        const isLoggedInUrl: string = `${protocol}//${hostname}${port}/isLoggedIn`;
+        const response = await fetch(isLoggedInUrl, {
+          'credentials': 'include'
+        });
+        const data = await response.json()
+        console.log(`isLoggedIn: `, data)
+        if (data.logged_in) {
+          setIsLoggedIn(true)
+          setUsername(data.username)
+        }
+      } catch (error) {
+        console.log('error checking login status: ', error);
+      }
+    }
+
+    checkLoginStatus()
+  }, [])
+
   function onLogout(username: string): void {
     const protocol: string = window.location.protocol;
     const hostname: string = window.location.hostname;
@@ -374,11 +398,14 @@ function App() {
           onRegister={onRegister}
           onLogout={onLogout}
           isLoggedIn={isLoggedIn}
+          username={username}
+          setUsername={setUsername}
           setIsLoggedIn={setIsLoggedIn}
           loginError={loginError}
           clearLoginError={() => setLoginError(null)}
         />
         <RoomControl
+          isLoggedIn={isLoggedIn}
           username={username}
           currentRoomId={room}
           socketRef={socketRef}

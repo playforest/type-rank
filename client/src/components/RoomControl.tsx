@@ -5,6 +5,7 @@ import { ServerToClientEvents, ClientToServerEvents } from "../App";
 import './RoomControlCss.css'
 
 interface RoomControlProps {
+    isLoggedIn: boolean;
     username: string;
     currentRoomId: string;
     socketRef: React.RefObject<Socket<ServerToClientEvents, ClientToServerEvents> | null>;
