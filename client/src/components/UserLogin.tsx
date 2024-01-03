@@ -4,7 +4,7 @@ import { Tooltip, TooltipRefProps } from "react-tooltip";
 import './UserLoginCss.css'
 
 interface LoginProps {
-    onLogin: (username: string, password: string, remember: boolean) => void;
+    onLogin: (username: string, password: string, remember_me: boolean) => void;
     onRegister: (email: string, username: string, password: string) => void;
     onLogout: (username: string) => void;
     isLoggedIn: boolean;

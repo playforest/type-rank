@@ -143,7 +143,7 @@ function App() {
       })
   }
 
-  function onLogin(username: string, password: string, remember: boolean = false): void {
+  function onLogin(username: string, password: string, remember_me: boolean = false): void {
     const protocol: string = window.location.protocol;
     const hostname: string = window.location.hostname;
     const port: string = window.location.port ? `:${window.location.port}` : '';
@@ -154,7 +154,7 @@ function App() {
       'body': JSON.stringify({
         username,
         password,
-        remember,
+        remember_me,
         csrf_token: csrfToken
       }),
       headers: {
@@ -164,7 +164,7 @@ function App() {
     fetch(loginUrl, options)
       .then(response => response.json())
       .then(data => {
-
+        console.log('payload: ', options.body)
         console.log(data)
         if (data.status == 'LOGIN_SUCCESSFULL') {
           setIsLoggedIn(true)
