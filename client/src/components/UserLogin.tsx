@@ -166,7 +166,7 @@ export function UserLogin({ onLogin, onRegister, onLogout, isLoggedIn, setIsLogg
                     autoComplete="off"
                     type="text"
                     name="username"
-                    value={username}
+                    value={isLoggedIn ? username : ''}
                     onChange={handleOnUsernameChange}
                     placeholder="Username"
 
