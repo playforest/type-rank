@@ -17,6 +17,8 @@ interface LoginProps {
 
 export function UserLogin({ onLogin, onRegister, onLogout, isLoggedIn, setIsLoggedIn, loginError, clearLoginError, setUsername, username }: LoginProps) {
     const [isRegistering, setIsRegistering] = useState<boolean>(false);
+    const [isResetting, setIsResetting] = useState<boolean>(false);
+
     const [email, setEmail] = useState<string>("")
     // const [username, setUsername] = useState<string>("");
     const [password, setPassword] = useState<string>("");
@@ -41,9 +43,13 @@ export function UserLogin({ onLogin, onRegister, onLogout, isLoggedIn, setIsLogg
         }
     };
 
-    const handleSwitchForm = () => {
+    const handleSwitchRegisterForm = () => {
         setIsRegistering(!isRegistering);
     };
+
+    const handleSwitchResetForm = () => {
+        setIsResetting(!isResetting);
+    }
 
     const handleOnUsernameChange = (event: ChangeEvent<HTMLInputElement>) => {
         clearLoginError();
@@ -145,9 +151,9 @@ export function UserLogin({ onLogin, onRegister, onLogout, isLoggedIn, setIsLogg
 
 
     return (
-        <form className={isRegistering ? "user-login is-registering" : "user-login"} onSubmit={handleSubmit}>
+        <form className={isRegistering && !isResetting ? "user-login is-registering" : "user-login"} onSubmit={handleSubmit}>
             <div className="forms-container">
-                {isRegistering && (
+                {isRegistering && !isResetting && (
                     <input
                         type="text"
                         name="email"
@@ -157,7 +163,7 @@ export function UserLogin({ onLogin, onRegister, onLogout, isLoggedIn, setIsLogg
                 )}
                 <input
                     id={
-                        isRegistering ?
+                        isRegistering && !isResetting ?
                             usernameIsValid === undefined || username.length < MIN_USERNAME_LENGTH
                                 ? 'neutral'
                                 : usernameIsValid ? 'valid' : 'invalid'
@@ -177,6 +183,7 @@ export function UserLogin({ onLogin, onRegister, onLogout, isLoggedIn, setIsLogg
                 {usernameValidationMessage && <Tooltip ref={usernameInputRef} id="username-tooltip" />}
 
                 <input
+                    style={isResetting ? { display: "none" } : {}}
                     type="password"
                     name="password"
                     value={password}
@@ -189,9 +196,10 @@ export function UserLogin({ onLogin, onRegister, onLogout, isLoggedIn, setIsLogg
                 {loginError && <Tooltip ref={passwordInputRef} id="password-tooltip" />}
                 <button
                     type="submit" name="submit">{
-                        isRegistering && !isLoggedIn
+                        isRegistering && !isLoggedIn && !isResetting
                             ? "Register"
-                            : isLoggedIn ? "Logout" : "Login"}
+                            : isLoggedIn ? "Logout" :
+                                isResetting ? "Reset" : "Login"}
                 </button>
             </div>
             <div className="remember-me-container">
@@ -205,8 +213,13 @@ export function UserLogin({ onLogin, onRegister, onLogout, isLoggedIn, setIsLogg
                     <label htmlFor="rememberMe">Remember me</label>
                 </div>
                 <div className="login-links">
-                    <a href="#" onClick={handleSwitchForm}>
-                        {isRegistering ? "Back to Login" : "Create Account"}
+                    <a href="#" onClick={handleSwitchRegisterForm}>
+                        {isRegistering ? "Back to Login" : "Sign Up"}
+                    </a>
+                </div>
+                <div className="login-links">
+                    <a href="#" onClick={handleSwitchResetForm}>
+                        {isRegistering ? "" : "Reset"}
                     </a>
                 </div>
             </div>
