@@ -168,13 +168,13 @@ export function UserLogin({ onLogin, onRegister, onLogout, isLoggedIn, setIsLogg
                                 ? 'neutral'
                                 : usernameIsValid ? 'valid' : 'invalid'
                             : ''}
-                    className="username"
+                    className={isResetting ? "username-or-email" : "username"}
                     autoComplete="off"
                     type="text"
                     name="username"
                     value={isLoggedIn ? username : ''}
                     onChange={handleOnUsernameChange}
-                    placeholder="Username"
+                    placeholder={isResetting ? "Username or Email" : "Username"}
 
 
                     data-tooltip-id="username-tooltip"

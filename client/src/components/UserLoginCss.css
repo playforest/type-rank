@@ -51,6 +51,11 @@
 
 }
 
+.user-login input.username-or-email {
+    width: 149px !important;
+    transition: with 0.35s ease;
+}
+
 .user-login input#invalid {
     border: 1px solid red !important;
     color: red;
